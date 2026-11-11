@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Omnia ❤️</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cinzel:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config for Strict Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        burgundy: '#570015',
+                        crimson: '#A80028',
+                        velvet: '#30000D',
+                        rose: '#D41445',
+                        gold: '#D6B36A',
+                        ivory: '#FFF3E8',
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                        amiri: ['Amiri', 'serif'],
+                        ruqaa: ['Aref Ruqaa', 'serif'],
+                    },
+                    animation: {
+                        'pulse-gold': 'pulseGold 2s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        pulseGold: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(214, 179, 106, 0.4), 0 0 30px rgba(168, 0, 40, 0.4)' },
+                            '50%': { boxShadow: '0 0 25px rgba(214, 179, 106, 0.8), 0 0 50px rgba(168, 0, 40, 0.8)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Strict Color Overrides */
+        body {
+            background-color: #30000D; /* Velvet Red Base */
+            color: #FFF3E8; /* Warm Ivory Base */
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Disable scrollbar on intro */
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        /* Gradient Backgrounds */
+        .bg-cinematic {
+            background: radial-gradient(circle at center, #570015 0%, #30000D 100%);
+        }
+
+        /* Glassmorphism */
+        .glass-btn {
+            background: rgba(168, 0, 40, 0.15); /* Crimson translucent */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(214, 179, 106, 0.5); /* Gold */
+            transition: all 0.4s ease;
+        }
+        .glass-btn:hover {
+            background: rgba(168, 0, 40, 0.4);
+            border-color: #D6B36A;
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .glass-player {
+            background: rgba(48, 0, 13, 0.85); /* Velvet Red */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(214, 179, 106, 0.3);
+            box-shadow: 0 10px 30px rgba(48, 0, 13, 0.9);
+        }
+
+        /* Text Glowing Effects */
+        .text-glow-gold {
+            text-shadow: 0 0 10px rgba(214, 179, 106, 0.6), 0 0 20px rgba(214, 179, 106, 0.4);
+        }
+        .text-glow-ivory {
+            text-shadow: 0 0 15px rgba(255, 243, 232, 0.5);
+        }
+
+        /* Wax Seal */
+        .wax-seal {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            background: #570015;
+            border-radius: 50%;
+            border: 3px solid #D6B36A;
+            box-shadow: 0 8px 20px rgba(48, 0, 13, 0.6), inset 0 0 15px rgba(48, 0, 13, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+        .wax-seal::after {
+            content: '❤️';
+            font-size: 1.5rem;
+            color: #D6B36A;
+            filter: drop-shadow(0 2px 2px rgba(48, 0, 13, 0.8));
+        }
+
+        /* Custom Scrollbar for Letter */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #30000D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #570015;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A80028;
+        }
+
+        /* Transition Utilities */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+        }
+        .fade-in-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Canvas background */
+        #animation-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: rgba(214, 179, 106, 0.2);
+            border-radius: 4px;
+            height: 4px;
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #D6B36A;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(214, 179, 106, 0.8);
+        }
+    </style>
+</head>
+<body class="no-scroll text-ivory">
+
+    <!-- Audio Element -->
+    <!-- Place 'bahaa-sultan-ma3aya.mp3' in the same directory as this file -->
+    <audio id="bg-music" src="bahaa-sultan-ma3aya.mp3" loop preload="auto"></audio>
+
+    <!-- Canvas for Animations (Petals, Particles, Hearts) -->
+    <canvas id="animation-canvas" class="hidden"></canvas>
+
+    <!-- ================= OPENING SCREEN ================= -->
+    <section id="opening-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-cinematic transition-opacity duration-1000">
+        
+        <!-- Phase 1 Text -->
+        <div id="intro-text-1" class="absolute inset-0 flex items-center justify-center p-6 text-center opacity-0 transition-opacity duration-1000 ease-in-out">
+            <h2 class="font-cinzel text-2xl md:text-4xl text-ivory tracking-widest font-light text-glow-ivory">
+                Something Special Is Waiting For You...
+            </h2>
+        </div>
+
+        <!-- Phase 2 Text & Button -->
+        <div id="intro-text-2" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center opacity-0 transition-opacity duration-1000 ease-in-out scale-95 transform">
+            <h1 class="font-cinzel text-4xl md:text-6xl lg:text-7xl text-gold font-bold mb-12 tracking-wide text-glow-gold">
+                Happy Birthday, Omnia <span class="text-rose inline-block animate-pulse">❤️</span>
+            </h1>
+            
+            <button id="open-btn" class="glass-btn text-gold font-cinzel font-semibold tracking-widest py-4 px-10 rounded-full text-lg uppercase animate-pulse-gold cursor-pointer z-50 flex items-center gap-3">
+                <span>Open Your Surprise</span>
+                <i class="fa-solid fa-envelope-open-text text-sm"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- ================= MAIN CONTENT (LOVE LETTER) ================= -->
+    <section id="main-content" class="relative z-10 hidden min-h-screen py-20 px-4 md:px-8 bg-cinematic flex-col items-center justify-center">
+        
+        <!-- Elegant Letter Container -->
+        <div class="relative w-full max-w-4xl mx-auto bg-ivory text-velvet rounded-xl shadow-[0_20px_60px_rgba(48,0,13,0.8)] border border-gold p-8 md:p-16 mt-10">
+            
+            <!-- Wax Seal -->
+            <div class="wax-seal"></div>
+
+            <!-- English Heading -->
+            <div class="text-center mb-12 fade-in-element">
+                <h2 class="font-cinzel text-3xl md:text-5xl text-crimson font-bold tracking-wide">
+                    To My Favorite Person, Omnia ❤️
+                </h2>
+                <div class="w-24 h-[2px] bg-gold mx-auto mt-6 opacity-70"></div>
+            </div>
+
+            <!-- Arabic Letter Body -->
+            <!-- Font 'Amiri' is used for elegant readability, RTL enforced -->
+            <div dir="rtl" class="font-amiri text-lg md:text-2xl leading-relaxed md:leading-[2.2] space-y-8 text-[#30000D]">
+                
+                <p class="fade-in-element">
+                    مون يـ مون ❣️
+                </p>
+
+                <p class="fade-in-element">
+                    مش عارف أبدأ منين، ولا إزاي أقدر أحط كل اللي جوايا في شوية كلام، بس يمكن النهارده فرصة أقولك حاجات كتير قلبي شايلها من زمان.
+                </p>
+
+                <p class="fade-in-element">
+                    فاكرة أول كلام بينا في 2023؟ مين كان يتخيل إن البداية البسيطة دي هتسيب جوايا كل الذكريات دي؟
+                </p>
+
+                <p class="fade-in-element">
+                    وفاكرة أول خروجة لينا في 2024، ويوم السينما، والوقت اللي قضيناه سوا؟ يمكن كانت لحظات عادية في نظر أي حد، لكن بالنسبالي كانت تفاصيل جميلة، وكل ما بفتكرها بحس إن فيه حاجات في الدنيا تستاهل تتحفظ جوانا.
+                </p>
+
+                <p class="fade-in-element">
+                    من يوم ما عرفتك وإنتِ ليكي مكانة جوايا مش شبه أي حد، وكل ذكرى بينا بتفكرني قد إيه وجودك كان وما زال غالي عندي. ونفسي اللي جمعنا في يوم، يجمعنا تاني على أيام أحلى وعمر أطول.
+                </p>
+
+                <p class="fade-in-element font-bold text-burgundy">
+                    يا موون انا بحبك ، وبحب تفاصيلك ، وبحب حتى الحاجات الصغيرة اللي يمكن إنتِ نفسك مش واخدة بالك منها. وحشني كلامك، وضحكتك، وحشني أعرف يومك كان عامل إزاي، وإيه اللي فرحك وإيه اللي ضايقك.
+                </p>
+
+                <p class="fade-in-element">
+                    وحشني إنك تكوني أول شخص أحب أحكيله حاجة حلوة حصلتلي، وأول شخص ييجي في بالي لما أكون محتاج أتكلم.
+                </p>
+
+                <p class="fade-in-element">
+                    فيه ناس بنحبها، وفيه ناس بنتمنى العمر نفسه يكون لينا معاهم.. وإنتِ بالنسبالي الاتنين.
+                </p>
+
+                <p class="fade-in-element">
+                    أنا نفسي أكلمك، ونفسي اشوفك و نرجع نتكلم زي زمان، ونسمع بعض من غير حواجز، ونفهم بعض أكتر. مش عايز نرجع لنفس الحكاية ونكرر كل اللي فات، أنا نفسي نبدأ حكاية أنضج وأجمل، يكون فيها وضوح واهتمام وراحة بال.
+                </p>
+
+                <p class="fade-in-element">
+                    ومش هقولك إن كل حاجة سهلة، ولا إن الطريق دايمًا بيكون مفروش بالورد، لكن فيه حاجات تستاهل إن الواحد يسعى عشانها، وإنتِ من الحاجات اللي أتمنى أكون قد المسؤولية معاها.
+                </p>
+
+                <p class="fade-in-element italic text-crimson text-center px-4 py-6 border-y border-gold/30 my-8">
+                    "الحب الحقيقي مش بس إنك تلاقي حد تحبه، الحب إنك تفضل تختاره، وتسعى تكون الشخص اللي يستحق قلبه."
+                </p>
+
+                <p class="fade-in-element">
+                    وعايز أقولك حاجة كمان...<br>
+                    يمكن أنا لسه مش في المكان اللي نفسي أكون فيه، ولسه عندي حاجات كتير ببنيها في حياتي، وأحلام بحاول أوصلها، ومسؤوليات لازم أكون قدها.
+                </p>
+
+                <p class="fade-in-element">
+                    بس صدقيني، أنا مش واقف مكاني. أنا بعافر وبحاول وأشتغل على نفسي، عشان اليوم اللي أقرر فيه أخد خطوة جدية، أكون راجل جاهز ييجي من الباب، ويطلبك بالحلال، ويكون قد الوعد والمسؤولية.
+                </p>
+
+                <p class="fade-in-element">
+                    ابن الحلال ساعات بيكون لسه بيحارب عشان يبني نفسه، وبنت الحلال تستاهل حد ييجي لها وهو مستعد، مش مجرد حد عنده كلام حلو يقوله.
+                </p>
+
+                <p class="fade-in-element">
+                    كل اللي بتمناه إن ربنا يكتب لنا الخير، ويدينا فرصة نقرب من بعض من جديد، ونبدأ حكاية أجمل، وأكون في يوم من الأيام الشخص اللي يقدر يفرّح قلبك ويكون سند ليكي .
+                </p>
+
+                <p class="fade-in-element">
+                    وفي يوم ميلادك، مش هتمنى ليكي غير كل الخير، وإن ربنا يحققلك أحلامك، ويحفظ ضحكتك، ويكتبلك أيام أجمل من كل اللي فات ، ويجمعنى بيكى ✨
+                </p>
+
+                <p class="fade-in-element">
+                    ويمكن أجمل أمنية عندي في يوم ميلادك، إن ييجي يوم نحتفل فيه بعيد ميلادك وإحنا بنفتكر الكلام ده ونضحك، ونقول: الحمد لله إن ربنا كتب لنا بداية جديدة.
+                </p>
+
+                <p class="fade-in-element font-bold text-burgundy text-center mt-10">
+                    كل سنة وإنتِ حبيبتي، وكل سنة وإنتِ أجمل أمنية نطق بيها قلبي .<br>
+                    كل سنة وإنتِ أمنية حلوة، مش بس في اسمك، لكن في قلبي كمان .
+                </p>
+
+                <p class="fade-in-element text-center mb-8">
+                    يا زين أيامي، ويا أجمل ما تمنيت ❤️
+                </p>
+            </div>
+
+            <!-- English Closing & Signatures -->
+            <div dir="ltr" class="mt-16 pt-8 border-t border-gold/30 text-center md:text-left fade-in-element">
+                <p class="font-playfair text-xl md:text-2xl text-crimson italic mb-2">
+                    And maybe, our story still has its most beautiful chapter ahead.
+                </p>
+                <p class="font-cinzel text-lg md:text-xl text-velvet mt-8 tracking-wider font-semibold">
+                    Forever Yours,
+                </p>
+                
+                <div class="flex flex-col md:flex-row items-center md:items-end justify-between mt-4">
+                    <p class="font-cinzel text-2xl text-burgundy font-bold tracking-widest uppercase">
+                        Mohamed Ghoneim
+                    </p>
+                    
+                    <!-- Arabic Signature -->
+                    <p class="font-ruqaa text-4xl md:text-5xl text-crimson mt-6 md:mt-0 transform -rotate-3">
+                        محمد غنيم
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Final Surprise Bottom Text -->
+        <div class="mt-32 mb-16 text-center fade-in-element w-full">
+            <h1 class="font-cinzel text-4xl md:text-6xl text-gold font-bold mb-6 text-glow-gold animate-float">
+                Happy Birthday, My Omnia ❤️
+            </h1>
+            <p class="font-playfair text-xl md:text-2xl text-ivory/80 tracking-widest uppercase">
+                With All My Love
+            </p>
+            <p class="font-cinzel text-2xl md:text-3xl text-gold tracking-widest mt-4">
+                MOHAMED GHONEIM
+            </p>
+            <div class="w-16 h-[2px] bg-rose mx-auto mt-6"></div>
+        </div>
+
+    </section>
+
+    <!-- ================= CUSTOM MUSIC PLAYER ================= -->
+    <div id="music-player" class="glass-player fixed bottom-6 right-6 z-50 p-4 rounded-2xl hidden flex-col gap-3 transition-opacity duration-500 opacity-0 w-64">
+        
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <!-- Rotating Vinyl Record Icon -->
+                <div id="record-icon" class="w-10 h-10 rounded-full bg-velvet border-2 border-gold flex items-center justify-center animate-[spin_4s_linear_infinite] [animation-play-state:paused]">
+                    <div class="w-3 h-3 bg-gold rounded-full"></div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-cinzel text-gold text-xs font-bold tracking-wider">Now Playing</span>
+                    <span class="font-playfair text-ivory text-sm truncate w-24">معايا – بهاء سلطان</span>
+                </div>
+            </div>
+            
+            <button id="play-pause-btn" class="text-gold hover:text-ivory transition-colors w-10 h-10 flex items-center justify-center text-xl">
+                <i class="fa-solid fa-pause"></i>
+            </button>
+        </div>
+
+        <!-- Volume Control -->
+        <div class="flex items-center gap-2 px-1">
+            <i class="fa-solid fa-volume-low text-gold/70 text-xs"></i>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5" class="w-full">
+            <i class="fa-solid fa-volume-high text-gold/70 text-xs"></i>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            /* --- Elements --- */
+            const introText1 = document.getElementById('intro-text-1');
+            const introText2 = document.getElementById('intro-text-2');
+            const openBtn = document.getElementById('open-btn');
+            const openingScreen = document.getElementById('opening-screen');
+            const mainContent = document.getElementById('main-content');
+            const body = document.body;
+            
+            const audio = document.getElementById('bg-music');
+            const musicPlayer = document.getElementById('music-player');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const volumeSlider = document.getElementById('volume-slider');
+            const recordIcon = document.getElementById('record-icon');
+            
+            const canvas = document.getElementById('animation-canvas');
+
+            /* --- Opening Sequence --- */
+            // Fade in Text 1
+            setTimeout(() => {
+                introText1.classList.remove('opacity-0');
+            }, 500);
+
+            // Fade out Text 1 and Fade in Text 2 + Button
+            setTimeout(() => {
+                introText1.classList.add('opacity-0');
+                
+                setTimeout(() => {
+                    introText2.classList.remove('opacity-0');
+                    introText2.classList.remove('scale-95');
+                    introText2.classList.add('scale-100');
+                }, 1000);
+                
+            }, 4000);
+
+            /* --- Enter Main Site --- */
+            openBtn.addEventListener('click', () => {
+                // Play Audio
+                audio.volume = volumeSlider.value;
+                audio.play().catch(e => console.log("Audio play prevented by browser, requires interaction.", e));
+                recordIcon.style.animationPlayState = 'running';
+
+                // Transition Screens
+                openingScreen.classList.add('opacity-0');
+                setTimeout(() => {
+                    openingScreen.style.display = 'none';
+                    body.classList.remove('no-scroll');
+                    mainContent.classList.remove('hidden');
+                    mainContent.classList.add('flex');
+                    canvas.classList.remove('hidden');
+                    
+                    // Show Music Player
+                    musicPlayer.classList.remove('hidden');
+                    setTimeout(() => { musicPlayer.classList.remove('opacity-0'); }, 100);
+
+                    // Initialize Canvas Animations
+                    initCanvas();
+                    
+                    // Trigger scroll animations for visible elements
+                    handleScrollAnimations();
+                }, 1000);
+            });
+
+            /* --- Music Player Controls --- */
+            playPauseBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    recordIcon.style.animationPlayState = 'running';
+                } else {
+                    audio.pause();
+                    playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                    recordIcon.style.animationPlayState = 'paused';
+                }
+            });
+
+            volumeSlider.addEventListener('input', (e) => {
+                audio.volume = e.target.value;
+            });
+
+            /* --- Scroll Animations (Intersection Observer) --- */
+            const fadeElements = document.querySelectorAll('.fade-in-element');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        obs.unobserve(entry.target); // Play once
+                    }
+                });
+            }, observerOptions);
+
+            function handleScrollAnimations() {
+                fadeElements.forEach(el => observer.observe(el));
+            }
+
+            /* --- Canvas Animations (Petals, Particles, Hearts) --- */
+            function initCanvas() {
+                const ctx = canvas.getContext('2d');
+                let width = canvas.width = window.innerWidth;
+                let height = canvas.height = window.innerHeight;
+
+                window.addEventListener('resize', () => {
+                    width = canvas.width = window.innerWidth;
+                    height = canvas.height = window.innerHeight;
+                });
+
+                const particles = [];
+
+                // Strict Theme Colors
+                const colors = {
+                    gold: '#D6B36A',
+                    rose: '#D41445',
+                    crimson: '#A80028',
+                    burgundy: '#570015'
+                };
+
+                class Particle {
+                    constructor(type) {
+                        this.type = type; // 'petal', 'gold', 'heart'
+                        this.reset();
+                        // Randomize initial Y to distribute across screen initially
+                        this.y = Math.random() * height; 
+                    }
+
+                    reset() {
+                        this.x = Math.random() * width;
+                        if (this.type === 'petal' || this.type === 'heart') {
+                            this.y = -50 - Math.random() * 100; // Start above
+                            this.vy = Math.random() * 1 + 0.5; // Falling speed
+                        } else {
+                            this.y = height + 50 + Math.random() * 100; // Start below
+                            this.vy = -(Math.random() * 0.5 + 0.2); // Floating up speed
+                        }
+                        
+                        this.vx = Math.random() * 1 - 0.5;
+                        this.size = Math.random() * 5 + 2;
+                        
+                        if (this.type === 'petal') {
+                            this.size = Math.random() * 8 + 6;
+                            this.rotation = Math.random() * 360;
+                            this.rotationSpeed = (Math.random() - 0.5) * 2;
+                            this.color = Math.random() > 0.5 ? colors.rose : colors.crimson;
+                        } else if (this.type === 'gold') {
+                            this.size = Math.random() * 2 + 1;
+                            this.color = colors.gold;
+                        } else if (this.type === 'heart') {
+                            this.size = Math.random() * 10 + 5;
+                            this.color = colors.burgundy; // Subdued hearts
+                            this.opacity = Math.random() * 0.3 + 0.1; 
+                        }
+                    }
+
+                    update() {
+                        this.x += this.vx;
+                        this.y += this.vy;
+                        
+                        // Swaying motion
+                        this.x += Math.sin(this.y * 0.01) * 0.5;
+
+                        if (this.type === 'petal') {
+                            this.rotation += this.rotationSpeed;
+                            if (this.y > height + 50) this.reset();
+                        } else if (this.type === 'gold') {
+                            if (this.y < -50) this.reset();
+                        } else if (this.type === 'heart') {
+                            if (this.y > height + 50) this.reset();
+                        }
+                    }
+
+                    draw() {
+                        ctx.save();
+                        ctx.translate(this.x, this.y);
+                        
+                        if (this.type === 'petal') {
+                            ctx.rotate(this.rotation * Math.PI / 180);
+                            ctx.fillStyle = this.color;
+                            ctx.globalAlpha = 0.8;
+                            // Draw simple leaf/petal shape
+                            ctx.beginPath();
+                            ctx.moveTo(0, 0);
+                            ctx.quadraticCurveTo(this.size, -this.size, 0, -this.size * 2);
+                            ctx.quadraticCurveTo(-this.size, -this.size, 0, 0);
+                            ctx.fill();
+                        } else if (this.type === 'gold') {
+                            ctx.fillStyle = this.color;
+                            ctx.shadowBlur = 10;
+                            ctx.shadowColor = this.color;
+                            ctx.beginPath();
+                            ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+                            ctx.fill();
+                        } else if (this.type === 'heart') {
+                            ctx.globalAlpha = this.opacity;
+                            ctx.fillStyle = this.color;
+                            // Draw Heart
+                            ctx.beginPath();
+                            const topCurveHeight = this.size * 0.3;
+                            ctx.moveTo(0, topCurveHeight);
+                            // Top left curve
+                            ctx.bezierCurveTo(
+                                0, 0, 
+                                -this.size, 0, 
+                                -this.size, topCurveHeight
+                            );
+                            // Bottom left
+                            ctx.bezierCurveTo(
+                                -this.size, this.size, 
+                                0, this.size * 1.5, 
+                                0, this.size * 2
+                            );
+                            // Bottom right
+                            ctx.bezierCurveTo(
+                                0, this.size * 1.5, 
+                                this.size, this.size, 
+                                this.size, topCurveHeight
+                            );
+                            // Top right curve
+                            ctx.bezierCurveTo(
+                                this.size, 0, 
+                                0, 0, 
+                                0, topCurveHeight
+                            );
+                            ctx.closePath();
+                            ctx.fill();
+                        }
+                        
+                        ctx.restore();
+                    }
+                }
+
+                // Create particles based on screen size to keep performance good
+                const numPetals = Math.floor(width / 30);
+                const numGold = Math.floor(width / 15);
+                const numHearts = Math.floor(width / 60);
+
+                for (let i = 0; i < numPetals; i++) particles.push(new Particle('petal'));
+                for (let i = 0; i < numGold; i++) particles.push(new Particle('gold'));
+                for (let i = 0; i < numHearts; i++) particles.push(new Particle('heart'));
+
+                function animate() {
+                    ctx.clearRect(0, 0, width, height);
+                    particles.forEach(p => {
+                        p.update();
+                        p.draw();
+                    });
+                    requestAnimationFrame(animate);
+                }
+
+                animate();
+            }
+        });
+    </script>
+</body>
+</html>
